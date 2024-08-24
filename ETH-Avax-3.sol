@@ -1,24 +1,29 @@
-pragma solidity ^0.8.0;
 // SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract metacraftToken is ERC20 {
-    address public Owner;
+contract TanupriyaToken is ERC20 {
+    address public owner;
 
-    constructor() ERC20("Metacraft", "MTC") {
-        Owner = msg.sender;
-        _mint(address(this), 10 * 10 ** decimals());
+    constructor() ERC20("Tanupriya", "TN") {
+        owner = msg.sender;
+        _mint(address(this), 100 * 100 ** decimals()); // Mint initial supply to the contract itself
     }
 
     modifier onlyOwner() {
-        require(msg.sender == Owner, "You are not the owner");
+        require(msg.sender == owner, "You are not the owner");
         _;
     }
 
+    // Function to change the owner if needed
+    function transferOwnership(address newOwner) public onlyOwner {
+        require(newOwner != address(0), "New owner cannot be the zero address");
+        owner = newOwner;
+    }
+
     function mintTokens(address recipient, uint256 amount) public onlyOwner {
-        uint256 contractBalance = balanceOf(address(this));
-        require(contractBalance >= amount, "Insufficient balance");
+        require(balanceOf(address(this)) >= amount, "Insufficient contract balance");
         _transfer(address(this), recipient, amount);
     }
 
