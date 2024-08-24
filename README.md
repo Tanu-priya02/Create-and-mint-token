@@ -1,103 +1,95 @@
-# MetacraftToken
-MetacraftToken is a custom ERC20 token implemented in Solidity. This token includes additional functionalities such as minting by the contract owner and burning by any user. The token's symbol is "MTC".
+## TanupriyaToken (TN) - ERC20 Token
+This is a Solidity smart contract implementing an ERC20 token named Tanupriya with the symbol TN. The contract allows the owner to mint, burn, and transfer tokens, and also includes functionality for changing ownership.
 
-## Features
-- **Minting**: The contract owner can mint tokens to any address.
-- **Burning**: Any user can burn their own tokens.
-- **Transferring**: Users can transfer tokens to other addresses.
-## Contract Details
-### Constructor
-The constructor initializes the token with the following parameters:
-
-- Name: Metacraft
-- Symbol: MTC
-It also sets the deployer of the contract as the owner and mints an initial supply of 10 tokens (multiplied by 10^decimals) to the contract address.
-
-### Modifiers
-- `onlyOwner` : Restricts certain functions to be callable only by the owner.
-### Functions
-- `mintTokens(address recipient, uint256 amount):` Allows the owner to transfer tokens from the contract's balance to a specified recipient address.
-
-  - **Parameters**:
-    - `recipient`: The address to receive the minted tokens.
-    - `amount`: The number of tokens to be minted.
-   - **Requirements**:
-     - Caller must be the owner.
-      - The contract must have a sufficient balance to transfer.
- - `burnTokens(uint256 amount)`: Allows any user to burn a specified amount of their own tokens.
-
-    - **Parameters**:
-      - `amount`: The number of tokens to be burned.
-  - `transferTokens(address recipient, uint256 amount):` Allows a user to transfer tokens to another address.
-
-    - **Parameters**:
-      - `recipient`: The address to receive the tokens.
-      - `amount`: The number of tokens to be transferred.
-    - **Returns**: `bool` indicating the success of the transfer.
-## Deployment
-To deploy the `MetacraftToken` contract:
-
-1. Open [Remix](https://remix.ethereum.org/).
-2. Create a new file named MetacraftToken.sol and paste the Solidity code.
-3. Compile the MetacraftToken.sol file using the Solidity compiler.
-4. Deploy the contract using the "Deploy & Run Transactions" tab in Remix.
-## Usage
-### Minting Tokens
-Only the owner can mint tokens. To mint tokens:
-
-1. Call the `mintTokens` function.
-2. Provide the recipient address and the amount of tokens to mint.
-   
-### Burning Tokens
-Any user can burn their own tokens. To burn tokens:
-
-1. Call the burnTokens function.
-2. Provide the amount of tokens to burn.
-   
-### Transferring Tokens
-Any user can transfer tokens to another address. To transfer tokens:
-
-1. Call the transferTokens function.
-2. Provide the recipient address and the amount of tokens to transfer.
-   
-### Example
-
-```solidity
-pragma solidity ^0.8.0;
-// SPDX-License-Identifier: MIT
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
-
-contract metacraftToken is ERC20 {
-    address public Owner;
-
-    constructor() ERC20("Metacraft", "MTC") {
-        Owner = msg.sender;
-        _mint(address(this), 10 * 10 ** decimals());
-    }
-
-    modifier onlyOwner() {
-        require(msg.sender == Owner, "You are not the owner");
-        _;
-    }
-
-    function mintTokens(address recipient, uint256 amount) public onlyOwner {
-        uint256 contractBalance = balanceOf(address(this));
-        require(contractBalance >= amount, "Insufficient balance");
-        _transfer(address(this), recipient, amount);
-    }
-
-    function burnTokens(uint256 amount) public {
-        _burn(msg.sender, amount);
-    }
-
-    function transferTokens(address recipient, uint256 amount) public returns (bool) {
-        _transfer(msg.sender, recipient, amount);
-        return true;
-    }
+Features
+Token Name: Tanupriya
+Token Symbol: TN
+Initial Supply: 1 million TN (adjusted for decimals)
+Minting and Burning: Tokens can be minted or burned by the owner.
+Ownership Transfer: Ownership can be transferred to a new address by the current owner.
+Contract Details
+Constructor
+solidity
+Copy code
+constructor() ERC20("Tanupriya", "TN") {
+    owner = msg.sender;
+    _mint(address(this), 100 * 100 ** decimals());
 }
-```
-## Authors
-Tanupriya 
-@Tanu
-## License
-This project is licensed under the MIT License.
+Sets the token name and symbol.
+Assigns the deployer as the contract owner.
+Mints the initial supply of 1 million tokens to the contract itself.
+Functions
+onlyOwner Modifier
+solidity
+Copy code
+modifier onlyOwner() {
+    require(msg.sender == owner, "You are not the owner");
+    _;
+}
+Restricts access to certain functions, ensuring only the owner can call them.
+transferOwnership
+solidity
+Copy code
+function transferOwnership(address newOwner) public onlyOwner {
+    require(newOwner != address(0), "New owner cannot be the zero address");
+    owner = newOwner;
+}
+Allows the current owner to transfer ownership to a new address.
+The new owner cannot be the zero address.
+mintTokens
+solidity
+Copy code
+function mintTokens(address recipient, uint256 amount) public onlyOwner {
+    require(balanceOf(address(this)) >= amount, "Insufficient contract balance");
+    _transfer(address(this), recipient, amount);
+}
+Mints tokens from the contract's balance to a specified recipient.
+Ensures that the contract has enough tokens before transferring.
+burnTokens
+solidity
+Copy code
+function burnTokens(uint256 amount) public {
+    _burn(msg.sender, amount);
+}
+Allows any token holder to burn a specified amount of their tokens, reducing the total supply.
+transferTokens
+solidity
+Copy code
+function transferTokens(address recipient, uint256 amount) public returns (bool) {
+    _transfer(msg.sender, recipient, amount);
+    return true;
+}
+Facilitates token transfers from one user to another.
+Returns true if the transfer is successful.
+Deployment
+Clone the repository:
+
+bash
+Copy code
+git clone https://github.com/your-repo/TanupriyaToken.git
+cd TanupriyaToken
+Install dependencies:
+
+bash
+Copy code
+npm install
+Compile the contract:
+
+bash
+Copy code
+npx hardhat compile
+Deploy the contract:
+
+bash
+Copy code
+npx hardhat run scripts/deploy.js --network <network-name>
+Usage
+Interacting with the Smart Contract
+Once deployed, you can interact with the contract using tools like Remix, Hardhat, or Ethers.js. Key interactions include:
+
+Transfer Ownership: Change the contract owner to another address.
+Mint Tokens: Mint tokens from the contract’s balance to a specified address.
+Burn Tokens: Destroy tokens from the caller’s balance.
+Transfer Tokens: Transfer tokens from one address to another.
+License
+This project is licensed under the MIT License - see the LICENSE file for details.
