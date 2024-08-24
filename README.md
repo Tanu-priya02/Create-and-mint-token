@@ -109,5 +109,5 @@ Once deployed, you can interact with the contract using tools like Remix, Hardha
 - Burn Tokens: Destroy tokens from the caller’s balance.
 - Transfer Tokens: Transfer tokens from one address to another.
 
-##License
+## License
 This project is licensed under the MIT License - see the LICENSE file for details.
