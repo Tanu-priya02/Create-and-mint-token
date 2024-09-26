@@ -1,113 +1,68 @@
-# TanupriyaToken (TN) - ERC20 Token
-This is a Solidity smart contract implementing an ERC20 token named Tanupriya with the symbol TN. The contract allows the owner to mint, burn, and transfer tokens, and also includes functionality for changing ownership.
+# TanuToken (TP)
 
-## Features
-- **Token Name:** Tanupriya
-- **Token Symbol:** TN
-- **Initial Supply:** 1 million TN (adjusted for decimals)
-- **Minting and Burning:** Tokens can be minted or burned by the owner.
-- **Ownership Transfer:** Ownership can be transferred to a new address by the current owner.
+TanuToken is an ERC20 token implemented in Solidity. This smart contract demonstrates the basic functionality of ERC20 tokens, including minting, burning, transferring tokens, and purchasing tokens. It also supports contract pausing and unpausing functions, which provide flexibility in controlling token activities.
 
-## Contract Details
+## Description
 
-### Constructor
-```solidity
-Copy code
-constructor() ERC20("Tanupriya", "TN") {
-    owner = msg.sender;
-    _mint(address(this), 100 * 100 ** decimals());
-}
-```
-- Sets the token name and symbol.
-- Assigns the deployer as the contract owner.
-- Mints the initial supply of 1 million tokens to the contract itself.
+TanuToken is a smart contract built using the Solidity programming language. It leverages OpenZeppelin's standard contracts for ERC20, Ownable, and Pausable functionality. The contract includes the ability for the owner to mint tokens, users to burn their tokens, and anyone to transfer or buy tokens when the contract is active. It also provides the functionality to pause and unpause operations as needed.
+
+## Getting Started
+
+### Prerequisites
+
+To interact with this contract, you'll need:
+
+- Basic knowledge of Solidity and ERC20 tokens.
+- An Ethereum-compatible wallet (such as MetaMask).
+- Access to the Remix IDE or a local development environment like Hardhat or Truffle.
   
-### Functions
-**`onlyOwner`** Modifier
-```solidity
-modifier onlyOwner() {
-    require(msg.sender == owner, "You are not the owner");
-    _;
-}
-```
+### Executing Program
 
-- Restricts access to certain functions, ensuring only the owner can call them.
-  
-**transferOwnership**
-```solidity
-function transferOwnership(address newOwner) public onlyOwner {
-    require(newOwner != address(0), "New owner cannot be the zero address");
-    owner = newOwner;
-}
-```
+To run this smart contract, you can use **Remix**, an online IDE for Solidity smart contracts. Follow these steps:
 
-- Allows the current owner to transfer ownership to a new address.
-- The new owner cannot be the zero address.
+1. **Open Remix IDE**  
+   Navigate to [Remix](https://remix.ethereum.org/) in your browser.
 
-**mintTokens**
-```solidity
-function mintTokens(address recipient, uint256 amount) public onlyOwner {
-    require(balanceOf(address(this)) >= amount, "Insufficient contract balance");
-    _transfer(address(this), recipient, amount);
-}
-```
+2. **Create a New File**  
+   In the left-hand sidebar, click on the "+" icon and create a new file. Name it `TanuToken.sol`.
 
-- Mints tokens from the contract's balance to a specified recipient.
-- Ensures that the contract has enough tokens before transferring.
+3. **Add Contract Code**  
+   Copy and paste the TanuToken contract code into the newly created file.
 
-**burnTokens**
-```solidity
-function burnTokens(uint256 amount) public {
-    _burn(msg.sender, amount);
-}
-```
+4. **Compile the Contract**  
+   Go to the "Solidity Compiler" tab in the left-hand sidebar, select the appropriate compiler version (`0.8.20` or above), and click on "Compile TanuToken.sol".
 
-- Allows any token holder to burn a specified amount of their tokens, reducing the total supply.
+5. **Deploy the Contract**  
+   Navigate to the "Deploy & Run Transactions" tab. Ensure you select the "TanuToken" contract from the dropdown menu, and then click on the "Deploy" button.
 
-**transferTokens**
-```solidity
-function transferTokens(address recipient, uint256 amount) public returns (bool) {
-    _transfer(msg.sender, recipient, amount);
-    return true;
-}
-```
-- Facilitates token transfers from one user to another.
-- Returns true if the transfer is successful.
+6. **Interacting with the Contract**  
+   After deployment, you can interact with the contract by calling its functions (mint, burn, transfer, buy tokens, etc.) via the Remix interface.
 
-## Deployment
+7. **Import Tokens into Wallet**  
+   Once the contract is deployed, you can use the contract address to import your TanuTokens into an Ethereum-compatible wallet (e.g., MetaMask).
 
-1. Clone the repository:
+## Contract Functions
 
-```bash
-git clone https://github.com/your-repo/TanupriyaToken.git
-cd TanupriyaToken
-```
-2. Install dependencies:
+- **Mint Tokens:**  
+  Allows the owner to mint new tokens to a specified address.
 
+- **Burn Tokens:**  
+  Token holders can burn their tokens, reducing the total supply.
 
-```bash
-npm install
-```
-3. Compile the contract:
+- **Transfer Tokens:**  
+  Tokens can be transferred between addresses when the contract is not paused.
 
-```bash
+- **Buy Tokens:**  
+  Users can buy tokens by sending Ether to the contract when it is not paused.
 
-npx hardhat compile
-```
-4. Deploy the contract:
-
-```bash
-npx hardhat run scripts/deploy.js --network <network-name>
-```
-
-## Usage
-### Interacting with the Smart Contract
-Once deployed, you can interact with the contract using tools like Remix, Hardhat, or Ethers.js. Key interactions include:
-
-- Transfer Ownership: Change the contract owner to another address.
-- Mint Tokens: Mint tokens from the contract’s balance to a specified address.
-- Burn Tokens: Destroy tokens from the caller’s balance.
-- Transfer Tokens: Transfer tokens from one address to another.
+- **Pause/Unpause Contract:**  
+  The contract owner can pause or unpause the contract, restricting or allowing transfers and purchases.
 
 ## License
-This project is licensed under the MIT License - see the LICENSE file for details.
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+## Authors
+
+Tanu Priya  
+[@TanuPriya](tanupriya1649@gmail.com)
